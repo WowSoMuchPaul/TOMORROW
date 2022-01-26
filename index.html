@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>TOMORROW</title>
+		<meta charset="utf-8">
+		<meta name="author" content="Dünninger, Eggers, Höppner, Hörcher, Witte">
+		<link rel="icon" type="image/png" href="./images/Logo_weiss.png">
+		<link rel="stylesheet" href="./styles/main.css">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		
+		<script type="module" src="./js/threejsscripts.js"></script>
+		<script src="./js/jesper.scripts.js"></script>
+		<script type="module" src="./js/schnittstelle.js"></script>
+	</head>
+
+	<body onload="bodyLoad()">
+
+		<div id="container"></div>
+		<div id="overlay"></div>
+		<div id="logoDiv"><img id="logo" src="./images/Logo_weiss.png" alt="Logo" width="100px"></div>
+		<div id="interviews">
+			<p><a href="#">Interviews zum Thema anschauen</a></p>
+		</div>
+		<div id="menu">
+			<div class="grid-container">
+				
+			  <div id="top-left">
+		
+			  </div>
+
+			  <div id="top-middle">
+				<button onclick="move()" type="button" id="pfeil_button">
+					<img id="pfeil" src="./images/arrow_top.png" width="30px"/>
+				</button>
+			  </div>
+		
+			  <div id="top-right">
+				
+			  </div>
+		
+				<div id="middle-top-left">
+					<select name="szenarien" id="szenarien" onchange="szenarienText()">
+						<option value="0">Szenario wählen</option>
+						<option value="2.6">Utopie | RCP 2.6</option>
+						<option value="4.5">Realismus | RCP 4.5</option>
+						<option value="8.5">Dystopie | RCP 8.5</option>
+				  </select>
+				  <br>
+				  <br>
+				  	<div id='buttonGroup'>
+						<fieldset style="border:none">
+						<input type="radio" id="sommer" name="jahreszeit" value="Sommer" style="float:left" checked>
+						<label for="sommer">Sommer</label><br>
+					
+						<input type="radio" id="winter" name="jahreszeit" value="Winter" style="float:left">
+						<label for="winter">Winter</label><br>
+						</fieldset>
+				  	</div>
+			  	</div>
+		
+			  <div id="middle-top-middle">
+				<p id="middle-info">
+					Willkommen bei Tomorrow! <br> 
+					Wähle ein Szenario aus und beginne damit, das mögliche Lübeck der Zukunft zu erkunden!
+				</p>
+			  </div>
+		
+			  <div id="middle-top-right">
+				<img id="thermometer" src="./images/thermo.png" alt="thermometer" style="padding-top: 10%; height: 200px;">
+				<label id="celsius" for="thermometer">°C</label>
+			</div>
+		
+			  <div id="middle-bottom-left" class="bottomdiv">
+				<button type="button" id="zurueck">
+					Zurück
+				  </button>
+			  </div>
+		
+			  <div id="middle-bottom-middle" class="bottomdiv">
+				<button type="button" onclick="onoverlay(), showOverlay(), szenarienText()" id="mehr_erfahren">
+					Mehr erfahren
+				</button>
+			  </div>
+		
+			  <div id="middle-bottom-right" class="bottomdiv">
+				<button type="button" id="infoButton" onclick="onIntro(), showOverlay(), show2()">
+					?
+				  </button>
+			  </div>
+			  
+			</div>
+		  </div>
+
+		  <div id="overlaymehrErfahren" class="buttonOverlay">
+			<div class="divHead">
+				<h1 id="mehrErfahrenH1">Mehr Erfahren</h1> 
+				<button id="xMehr"  type="button" onclick="offoverlay(), disableOverlay()"><img src="./images/schliessen.png" width="20px"></button>
+			</div>
+			<p id="mehrErfahrenP1" class="overlayP">
+			</p>
+			<div class="mehrCont">
+				<p id="mehrErfahrenP2" class="overlayP">
+					<div id="table2-6">
+						<table>
+							<thead>
+								<h2>Sommer</h2>
+								<tr>
+									<th>Durchschliche Temperatur</th>
+									<th>heiße Tage/Jahr</th>
+									<th>Sommertage/Jahr</th>
+									<th>Tropische Nächte/Jahr</th>
+									<th>Niederschlag</th>
+									<th>Trockentage/Jahr</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>2°C bis 2,2°C wärmer</td>
+									<td>5-6 mehr</td>
+									<td>16-30 mehr</td>
+									<td>0-6 mehr</td>
+									<td>Tendenz zu <br>24.6% bis 20% mehr</td>
+									<td>Tendenz zu 25 mehr</td>
+								</tr>
+							</tbody>
+						</table>
+						<table>
+							<thead>
+								<h2>Aktuelle Vergleichswerte (ganzes Jahr)</h2>
+								<tr>
+									<th>Durchschliche Temperatur</th>
+									<th>heiße Tage/Jahr</th>
+									<th>Sommertage/Jahr</th>
+									<th>Tropische Nächte/Jahr</th>
+									<th>Niederschlag</th>
+									<th>Trockentage/Jahr</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>8,6°C</td>
+									<td>2 Tage/Jahr</td>
+									<td>16,7 Tage/Jahr</td>
+									<td>0,1 Tage/Jahr</td>
+									<td>785,5 mm/Jahr</td>
+									<td>229,5 Tage/Jahr</td>
+								</tr>
+							</tbody>
+						</table>
+						<br>
+						<h2>Legende</h2>
+						<p class="overlayPLegende">
+							<b>Durchschnittliche Temperatur:</b><br> 
+							Die Temperatur ist hier die bodennahe Lufttemperatur [2 m über Grund]. Die Werte für Jahresmittel und Jahreszeiten werden auf Basis der Tagesmittelwerte der Temperatur berechnet. 
+							Die Werte für die Jahreszeiten werden für das meteorologische Jahr berechnet: Die Temperatur für den Sommer wird in den Monaten Juni, Juli und August berechnet.
+							<br><br><b>Heiße Tage:</b><br> Anzahl an Tagen pro Jahr mit einer tagesmaximum Temperatur von mehr als 30 °C.
+							<br><br><b>Sommertage:</b><br> Anzahl an Tagen pro Jahr mit einer tagesmaximum Temperatur von mehr als 25 °C.
+							<br><br><b>Tropische Nächte:</b><br> Anzahl an Tagen pro Jahr mit einer Minimumtemperatur von mehr als 20 °C.
+							<br><br><b>Niederschlag:</b><br> Die Niederschlagswerte werden auf Basis von täglichen Niederschlagsmengen berechnet und als 
+							durchschnittliche monatliche Niederschlagssummen bezogen aufs Jahr und die Jahreszeiten in mm pro Monat angegeben. 
+							Sie beinhalten sowohl flüssigen als auch festen Niederschlag, also Regen und Schnee. Die jahreszeitlichen Niederschlagsmengen 
+							werden für das meteorologische Jahr berechnet (siehe Erläuterungen zur Temperatur).
+							<br><br><b>Trockentage:</b><br> Anzahl der Tage pro Jahr, an denen die Niederschlagsmenge (Regen und Schnee) weniger als 1 mm beträgt.
+						</p>
+						<br>
+						<hr>
+						<table>
+							<thead>
+								<h2>Winter</h2>
+								<tr>
+									<th>Durchschliche Temperatur</th>
+									<th>Eistage/Jahr</th>
+									<th>Frosttage/Jahr</th>
+									<th>Niederschlag</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1,0°C bis 2,9°C wärmer</td>
+									<td>1 weniger</td>
+									<td>-10 bis +3 weniger/mehr</td>
+									<td>10.6% bis 20% mehr</td>
+								</tr>
+							</tbody>
+						</table>
+						<table>
+							<thead>
+								<h2>Aktuelle Vergleichswerte (ganzes Jahr)</h2>
+								<tr>
+									<th>Durchschliche Temperatur</th>
+									<th>Eistage/Jahr</th>
+									<th>Frosttage/Jahr</th>
+									<th>Niederschlag</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>18,6°C</td>
+									<td>17 Tage/Jahr</td>
+									<td>69,4 Tage/Jahr</td>
+									<td>785,7 mm/Jahr</td>
+								</tr>
+							</tbody>
+						</table>
+						<br>
+						<h2>Legende</h2>
+						<p class="overlayPLegende">
+							<b>Durchschnittliche Temperatur:</b><br> 
+							Die Temperatur ist hier die bodennahe Lufttemperatur [2 m über Grund]. Die Werte für Jahresmittel und Jahreszeiten werden auf Basis der Tagesmittelwerte der Temperatur berechnet. 
+							Die Werte für die Jahreszeiten werden für das meteorologische Jahr berechnet: Die Temperatur für den Sommer wird in den Monaten Juni, Juli und August berechnet.
+							<br><br><b>Eistage:</b><br> Anzahl der Tage pro Jahr mit einer tagesmaximum Temperatur geringer als 0 °C.
+							<br><br><b>Frosttage:</b><br> Anzahl der Tage pro Jahr mit einer tagesmaximum Temperatur geringer als 0 °C.
+							<br><br><b>Tropische Nächte:</b><br> Anzahl an Tagen pro Jahr mit einer Minimumtemperatur von mehr als 20 °C.
+							<br><br><b>Niederschlag:</b><br> Die Niederschlagswerte werden auf Basis von täglichen Niederschlagsmengen berechnet und als 
+							durchschnittliche monatliche Niederschlagssummen bezogen aufs Jahr und die Jahreszeiten in mm pro Monat angegeben. 
+							Sie beinhalten sowohl flüssigen als auch festen Niederschlag, also Regen und Schnee. Die jahreszeitlichen Niederschlagsmengen 
+							werden für das meteorologische Jahr berechnet (siehe Erläuterungen zur Temperatur).
+						</p>
+					</div>
+					<div id="table4-5">
+						<table>
+							<thead>
+								<h2>Sommer</h2>
+								<tr>
+									<th>Durchschliche Temperatur</th>
+									<th>heiße Tage/Jahr</th>
+									<th>Sommertage/Jahr</th>
+									<th>Tropische Nächte/Jahr</th>
+									<th>Niederschlag</th>
+									<th>Trockentage/Jahr</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>3°C bis 3,5°C wärmer</td>
+									<td>5-10 mehr</td>
+									<td>30 mehr</td>
+									<td>5-8 mehr</td>
+									<td>20%-32% mehr</td>
+									<td>Tendenz zu 7 mehr</td>
+								</tr>
+							</tbody>
+						</table>
+						<table>
+							<thead>
+								<h2>Aktuelle Vergleichswerte (ganzes Jahr)</h2>
+								<tr>
+									<th>Durchschliche Temperatur</th>
+									<th>heiße Tage/Jahr</th>
+									<th>Sommertage/Jahr</th>
+									<th>Tropische Nächte/Jahr</th>
+									<th>Niederschlag</th>
+									<th>Trockentage/Jahr</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>8,6°C</td>
+									<td>2 Tage/Jahr</td>
+									<td>16,7 Tage/Jahr</td>
+									<td>0,1 Tage/Jahr</td>
+									<td>785,5 mm/Jahr</td>
+									<td>229,5 Tage/Jahr</td>
+								</tr>
+							</tbody>
+						</table>
+						<br>
+						<h2>Legende</h2>
+						<p class="overlayPLegende">
+							<b>Durchschnittliche Temperatur:</b><br> 
+							Die Temperatur ist hier die bodennahe Lufttemperatur [2 m über Grund]. Die Werte für Jahresmittel und Jahreszeiten werden auf Basis der Tagesmittelwerte der Temperatur berechnet. 
+							Die Werte für die Jahreszeiten werden für das meteorologische Jahr berechnet: Die Temperatur für den Sommer wird in den Monaten Juni, Juli und August berechnet.
+							<br><br><b>Heiße Tage:</b><br> Anzahl an Tagen pro Jahr mit einer tagesmaximum Temperatur von mehr als 30 °C.
+							<br><br><b>Sommertage:</b><br> Anzahl an Tagen pro Jahr mit einer tagesmaximum Temperatur von mehr als 25 °C.
+							<br><br><b>Tropische Nächte:</b><br> Anzahl an Tagen pro Jahr mit einer Minimumtemperatur von mehr als 20 °C.
+							<br><br><b>Niederschlag:</b><br> Die Niederschlagswerte werden auf Basis von täglichen Niederschlagsmengen berechnet und als 
+							durchschnittliche monatliche Niederschlagssummen bezogen aufs Jahr und die Jahreszeiten in mm pro Monat angegeben. 
+							Sie beinhalten sowohl flüssigen als auch festen Niederschlag, also Regen und Schnee. Die jahreszeitlichen Niederschlagsmengen 
+							werden für das meteorologische Jahr berechnet (siehe Erläuterungen zur Temperatur).
+							<br><br><b>Trockentage:</b><br> Anzahl der Tage pro Jahr, an denen die Niederschlagsmenge (Regen und Schnee) weniger als 1 mm beträgt.
+						</p>
+						<br>
+						<hr>
+						<table>
+							<thead>
+								<h2>Winter</h2>
+								<tr>
+									<th>Durchschliche Temperatur</th>
+									<th>Eistage/Jahr</th>
+									<th>Frosttage/Jahr</th>
+									<th>Niederschlag</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>3,3°C bis 3,5°C wärmer</td>
+									<td>-6 bis -5 weniger</td>
+									<td>-16 bis -20 weniger</td>
+									<td>19% bis 20% mehr</td>
+								</tr>
+							</tbody>
+						</table>
+						<table>
+							<thead>
+								<h2>Aktuelle Vergleichswerte (ganzes Jahr)</h2>
+								<tr>
+									<th>Durchschliche Temperatur</th>
+									<th>Eistage/Jahr</th>
+									<th>Frosttage/Jahr</th>
+									<th>Niederschlag</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>18,6°C</td>
+									<td>17 Tage/Jahr</td>
+									<td>69,4 Tage/Jahr</td>
+									<td>785,7 mm/Jahr</td>
+								</tr>
+							</tbody>
+						</table>
+						<br>
+						<h2>Legende</h2>
+						<p class="overlayPLegende">
+							<b>Durchschnittliche Temperatur:</b><br> 
+							Die Temperatur ist hier die bodennahe Lufttemperatur [2 m über Grund]. Die Werte für Jahresmittel und Jahreszeiten werden auf Basis der Tagesmittelwerte der Temperatur berechnet. 
+							Die Werte für die Jahreszeiten werden für das meteorologische Jahr berechnet: Die Temperatur für den Sommer wird in den Monaten Juni, Juli und August berechnet.
+							<br><br><b>Eistage:</b><br> Anzahl der Tage pro Jahr mit einer tagesmaximum Temperatur geringer als 0 °C.
+							<br><br><b>Frosttage:</b><br> Anzahl der Tage pro Jahr mit einer tagesmaximum Temperatur geringer als 0 °C.
+							<br><br><b>Tropische Nächte:</b><br> Anzahl an Tagen pro Jahr mit einer Minimumtemperatur von mehr als 20 °C.
+							<br><br><b>Niederschlag:</b><br> Die Niederschlagswerte werden auf Basis von täglichen Niederschlagsmengen berechnet und als 
+							durchschnittliche monatliche Niederschlagssummen bezogen aufs Jahr und die Jahreszeiten in mm pro Monat angegeben. 
+							Sie beinhalten sowohl flüssigen als auch festen Niederschlag, also Regen und Schnee. Die jahreszeitlichen Niederschlagsmengen 
+							werden für das meteorologische Jahr berechnet (siehe Erläuterungen zur Temperatur).
+						</p>
+					</div>
+					<div id="table8-5">
+						<table>
+							<thead>
+								<h2>Sommer</h2>
+								<tr>
+									<th>Durchschliche Temperatur</th>
+									<th>heiße Tage/Jahr</th>
+									<th>Sommertage/Jahr</th>
+									<th>Tropische Nächte/Jahr</th>
+									<th>Niederschlag</th>
+									<th>Trockentage/Jahr</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>5°C bis 5,4°C wärmer</td>
+									<td>5-15 mehr</td>
+									<td>50-58 mehr</td>
+									<td>20-28 meh</td>
+									<td>10% mehr</td>
+									<td>Tendenz zu 22 mehr</td>
+								</tr>
+							</tbody>
+						</table>
+						<table>
+							<thead>
+								<h2>Aktuelle Vergleichswerte (ganzes Jahr)</h2>
+								<tr>
+									<th>Durchschliche Temperatur</th>
+									<th>heiße Tage/Jahr</th>
+									<th>Sommertage/Jahr</th>
+									<th>Tropische Nächte/Jahr</th>
+									<th>Niederschlag</th>
+									<th>Trockentage/Jahr</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>8,6°C</td>
+									<td>2 Tage/Jahr</td>
+									<td>16,7 Tage/Jahr</td>
+									<td>0,1 Tage/Jahr</td>
+									<td>785,5 mm/Jahr</td>
+									<td>229,5 Tage/Jahr</td>
+								</tr>
+							</tbody>
+						</table>
+						<br>
+						<h2>Legende</h2>
+						<p class="overlayPLegende">
+							<b>Durchschnittliche Temperatur:</b><br> 
+							Die Temperatur ist hier die bodennahe Lufttemperatur [2 m über Grund]. Die Werte für Jahresmittel und Jahreszeiten werden auf Basis der Tagesmittelwerte der Temperatur berechnet. 
+							Die Werte für die Jahreszeiten werden für das meteorologische Jahr berechnet: Die Temperatur für den Sommer wird in den Monaten Juni, Juli und August berechnet.
+							<br><br><b>Heiße Tage:</b><br> Anzahl an Tagen pro Jahr mit einer tagesmaximum Temperatur von mehr als 30 °C.
+							<br><br><b>Sommertage:</b><br> Anzahl an Tagen pro Jahr mit einer tagesmaximum Temperatur von mehr als 25 °C.
+							<br><br><b>Tropische Nächte:</b><br> Anzahl an Tagen pro Jahr mit einer Minimumtemperatur von mehr als 20 °C.
+							<br><br><b>Niederschlag:</b><br> Die Niederschlagswerte werden auf Basis von täglichen Niederschlagsmengen berechnet und als 
+							durchschnittliche monatliche Niederschlagssummen bezogen aufs Jahr und die Jahreszeiten in mm pro Monat angegeben. 
+							Sie beinhalten sowohl flüssigen als auch festen Niederschlag, also Regen und Schnee. Die jahreszeitlichen Niederschlagsmengen 
+							werden für das meteorologische Jahr berechnet (siehe Erläuterungen zur Temperatur).
+							<br><br><b>Trockentage:</b><br> Anzahl der Tage pro Jahr, an denen die Niederschlagsmenge (Regen und Schnee) weniger als 1 mm beträgt.
+						</p>
+						<br>
+						<hr>
+						<table>
+							<thead>
+								<h2>Winter</h2>
+								<tr>
+									<th>Durchschliche Temperatur</th>
+									<th>Eistage/Jahr</th>
+									<th>Frosttage/Jahr</th>
+									<th>Niederschlag</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>5°C wärmer</td>
+									<td>-7 bis -15 weniger</td>
+									<td>--23 bis -40 weniger</td>
+									<td>40% mehr</td>
+								</tr>
+							</tbody>
+						</table>
+						<table>
+							<thead>
+								<h2>Aktuelle Vergleichswerte (ganzes Jahr)</h2>
+								<tr>
+									<th>Durchschliche Temperatur</th>
+									<th>Eistage/Jahr</th>
+									<th>Frosttage/Jahr</th>
+									<th>Niederschlag</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>18,6°C</td>
+									<td>17 Tage/Jahr</td>
+									<td>69,4 Tage/Jahr</td>
+									<td>785,7 mm/Jahr</td>
+								</tr>
+							</tbody>
+						</table>
+						<br>
+						<h2>Legende</h2>
+						<p class="overlayPLegende">
+							<b>Durchschnittliche Temperatur:</b><br> 
+							Die Temperatur ist hier die bodennahe Lufttemperatur [2 m über Grund]. Die Werte für Jahresmittel und Jahreszeiten werden auf Basis der Tagesmittelwerte der Temperatur berechnet. 
+							Die Werte für die Jahreszeiten werden für das meteorologische Jahr berechnet: Die Temperatur für den Sommer wird in den Monaten Juni, Juli und August berechnet.
+							<br><br><b>Eistage:</b><br> Anzahl der Tage pro Jahr mit einer tagesmaximum Temperatur geringer als 0 °C.
+							<br><br><b>Frosttage:</b><br> Anzahl der Tage pro Jahr mit einer tagesmaximum Temperatur geringer als 0 °C.
+							<br><br><b>Tropische Nächte:</b><br> Anzahl an Tagen pro Jahr mit einer Minimumtemperatur von mehr als 20 °C.
+							<br><br><b>Niederschlag:</b><br> Die Niederschlagswerte werden auf Basis von täglichen Niederschlagsmengen berechnet und als 
+							durchschnittliche monatliche Niederschlagssummen bezogen aufs Jahr und die Jahreszeiten in mm pro Monat angegeben. 
+							Sie beinhalten sowohl flüssigen als auch festen Niederschlag, also Regen und Schnee. Die jahreszeitlichen Niederschlagsmengen 
+							werden für das meteorologische Jahr berechnet (siehe Erläuterungen zur Temperatur).
+						</p>
+					</div>
+				</p>
+			</div>
+			
+		  </div>
+		
+		  <div id="overlayInfo" class="buttonOverlay">
+			<button id="x" onclick="offoverlayInfo(), disableOverlay()"><img src="./images/schliessen.png" width="20px"></button>
+			<h1>Klimaszenarien</h1> 
+			<p class="overlayP">
+				Die Szenarien basieren auf Angaben des <b>ICPP</b> (Intergovernmental Panel on Climate Change). <br>
+				Hier werden regelmäßig wissenschaftliche Berichte zur aktuellen Situation und Handlungsmöglichkeiten präsentiert, 
+				die vor allem für politische Entscheidungen als Grundlage dienen sollen. 
+				Dafür werden sogenannte RCP-Szenarien entwickelt, die mögliche <b>Klimaprojektionen</b> darstellen. <br>
+				<br>
+				Die RCP-Szenarien legen bestimmte Szenarien von Treibhausgas Konzentrationen fest. 
+				Daraus berechnen Klimamodelle einerseits die Klimaänderung und andererseits die Emissionen (einschließlich aller Rückkopplungen des Kohlenstoffkreislaufs), 
+				die erforderlich sind, um diese Konzentrationen hervorzurufen.
+				Der Climate Service Center Germany (GERICS) hat sich aus aktuellen Berichten drei Szenarios 
+				genommen und auf die Bundesländer in Deutschland angewandt. Auf Grundlage der Daten für Schleswig-Holstein 
+				wurden die hier zu sehenden Szenarien entwickelt. <br> <br>
+				
+				Dafür wurde ein mildes Szenario (RCP 2.6 bei uns „Szenario Utopie“), ein mittelschweres (RCP 4.5 bei uns „Szenario Realismus“) 
+				und eines mit sehr schweren Folgen (RCP 8.5 bei uns „Szenario Dystopie“) genommen.<br><br>
+				Wähle die entsprechenden Szenarien aus, um jeweils mehr darüber zu erfahren!
+			</p>			
+		  </div>
+		
+		  	<div id="introOverlay" class="buttonOverlay">
+				<button id="x" onclick="offIntro(), disableOverlay()"><img src="./images/schliessen.png" width="20px"></button>
+				<h1 id="introUeberschrift">Tomorrow</h1> 
+				<p class="overlayP" id="tmr">
+				<b>Tomorrow – Morgen</b>, oder zumindest sehr bald werden die Folgen des Klimawandels 
+					auch im globalen Norden spürbar werden.<br> Zum jetzigen Zeitpunkt können wir und unsere Regierungen 
+					vielleicht noch so tun, als wenn wir damit nichts zu tun hätten oder uns noch viel Zeit zum Handeln bleibt. <br>
+					<br>
+					Aber schon in naher Zukunft – <b>in wenigen Jahren</b> – wird sich auch hier vor Ort das Klima enorm verändern. 
+					Das hat Auswirkungen auf unsere Infrastruktur und damit auf unser tägliches Leben.
+					Natürlich sind wir nicht in Lübeck allein dafür verantwortlich, dass die Auswirkungen möglichst gering bleiben. 
+					Dafür müssen wir weltweit zusammenarbeiten und alle unseren Teil tun. Aber eben auch wir in Lübeck!
+					<br>
+					<br>
+					Dieses Projekt hat es sich zum Ziel gemacht, die Auswirkungen von globalen Emissionswerten auf die Region Lübeck zu visualisieren. 
+					<br>Dafür wurden drei vom ICPP (Intergovernmental Panel on Climate Change) veröffentlichten Szenarien 
+					als Grundlage genommen und jeweils die lokalen Wetterveränderungen herausgesucht und verbildlicht. 
+				</p>
+				<p class="overlayP" id="str"> 
+					Die Steuerung erfolgt durch anwählen der blauen Interaktions-Punkte auf dem Model. <br>
+					Das Modell lässt sich über Draggen bewegen.<br>
+					<br>
+					Weitere Steuerungsmöglichkeiten finden sich im Kontrollboard am unteren Bildrand.
+				</p>
+				<p class="overlayP" id="klm">
+					Die Szenarien basieren auf Angaben des <b>ICPP</b> (Intergovernmental Panel on Climate Change). <br>
+					Hier werden regelmäßig wissenschaftliche Berichte zur aktuellen Situation und Handlungsmöglichkeiten präsentiert, 
+					die vor allem für politische Entscheidungen als Grundlage dienen sollen. 
+					Dafür werden sogenannte RCP-Szenarien entwickelt, die mögliche <b>Klimaprojektionen</b> darstellen. <br>
+					<br>
+					Die RCP-Szenarien legen bestimmte Szenarien von Treibhausgas Konzentrationen fest. 
+					Daraus berechnen <b>Klimamodelle</b> einerseits die Klimaänderung und andererseits die Emissionen (einschließlich aller Rückkopplungen des Kohlenstoffkreislaufs), 
+					die erforderlich sind, um diese Konzentrationen hervorzurufen.
+					Der Climate Service Center Germany (GERICS) hat sich aus aktuellen Berichten drei Szenarios 
+					genommen und auf die Bundesländer in Deutschland angewandt. Auf Grundlage der Daten für Schleswig-Holstein 
+					wurden die hier zu sehenden Szenarien entwickelt. <br> <br>
+					
+					Dafür wurde ein mildes Szenario (RCP 2.6 bei uns „Szenario Utopie“), ein mittelschweres (RCP 4.5 bei uns „Szenario Realismus“) 
+					und eines mit sehr schweren Folgen (RCP 8.5 bei uns „Szenario Dystopie“) genommen.<br><br>
+					Wähle die entsprechenden Szenarien aus, um jeweils mehr darüber zu erfahren!
+				</p>
+				<div id='buttonGroupSeiten'>
+					<input id='radioFirst' class="radio-input" type="radio" name="seite" value="seiteA" checked onchange="show1()"/>
+					<input id="radioSecond" class="radio-input" type="radio" name="seite" value="seiteB"  onchange="show2()"/>
+					<input id="radioThird" class="radio-input" type="radio" name="seite" value="seiteC" onchange="show3()"/>
+				</div>
+			</div>
+
+		
+
+	</body>
+
+	
+
+</html>
